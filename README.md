@@ -1,1 +1,8 @@
 # blockchain-expense-managment
+Connect MongoDB to The Graph: Create a subgraph using The Graph, which is a decentralized protocol for indexing and querying data from blockchains. You will need to write a subgraph manifest and mappings to define how the data from your MongoDB database should be represented in The Graph. The Graph will then index the data and make it available through a GraphQL API.
+
+Set up a Chainlink external adapter: Chainlink is a decentralized oracle network that enables smart contracts to securely access off-chain data feeds. In order to access the data from The Graph, you will need to create a Chainlink external adapter. The external adapter will act as a bridge between the smart contract and the GraphQL API provided by The Graph. It will listen for requests from the smart contract, fetch the data from The Graph, and return the relevant information to the smart contract.
+
+Create a smart contract: Write a smart contract (in Solidity, for example) that will interact with the Chainlink external adapter. The smart contract should be designed to call the external adapter whenever there is a new entry in the MongoDB database. The adapter will then fetch the data from The Graph and return it to the smart contract. Once the smart contract receives the data, it can then create an NFT based on the provided information.
+
+Deploy the smart contract: Deploy the smart contract to the appropriate blockchain network (e.g., Ethereum, Binance Smart Chain, etc.). This will allow other users to interact with your NFT creation mechanism.
