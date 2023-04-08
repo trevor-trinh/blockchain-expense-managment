@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20FlashMint.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /// @custom:security-contact derrick_cui@berkeley.edu
 contract Expense is
@@ -63,5 +64,13 @@ contract Expense is
         uint256 amount
     ) internal override(ERC20, ERC20Votes) {
         super._burn(account, amount);
+    }
+
+    IERC20 public usdc;
+
+    //functionality that allows transfer of USDC to contract
+    function transferToContract(address _to, uint256 _amount) public {
+        //transfer USDC to contract
+        IERC20(_to).transferFrom(msg.sender, address(this), _amount);
     }
 }
