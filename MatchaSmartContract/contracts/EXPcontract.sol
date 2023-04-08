@@ -92,8 +92,9 @@ contract Expense is
             "Not enough USDC in contract"
         );
 
-        // transfer USDC to this contract for staking
         USDc.transfer(msg.sender, _amount);
+        _burn(address(this), _amount);
+
     }
 }
 
