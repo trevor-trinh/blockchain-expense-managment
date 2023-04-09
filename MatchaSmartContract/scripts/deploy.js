@@ -8,6 +8,8 @@ const hre = require("hardhat");
 
 
 async function main() {
+
+  
   const Expense = await hre.ethers.getContractFactory("Expense");
   const hardhatExpense = await Expense.deploy();
 
@@ -16,6 +18,15 @@ async function main() {
   console.log(
     'deployed EXPcontract', hardhatExpense.address
   );
+
+  // const mockUSDC = await hre.ethers.getContractFactory("Expense");
+  // const USDC = await mockUSDC.deploy();
+
+  // await USDC.deployed();
+
+  // console.log(
+  //   'deployed MockUSDC', USDC.address
+  // );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
