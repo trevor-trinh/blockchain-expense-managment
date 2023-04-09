@@ -20,12 +20,14 @@ contract Expense is
     ERC20Votes,
     ERC20FlashMint
 {
-    constructor(
-        address usdcAddress
-    ) ERC20("Expense", "EXP") ERC20Permit("Expense") {
-        // usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); // Initialize USDC contract
+    constructor()
+        // address usdcAddress
+        ERC20("Expense", "EXP")
+        ERC20Permit("Expense")
+    {
+        usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); // Initialize USDC contract
         //TODO CHANGE THIS BEFORE PUTTING ON MAINNET
-        usdc = IERC20(usdcAddress);
+        // usdc = IERC20(usdcAddress);
     }
 
     function pause() public onlyOwner {
