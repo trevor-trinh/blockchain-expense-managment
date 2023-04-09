@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20FlashMint.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /// @custom:security-contact derrick_cui@berkeley.edu
 contract Expense is
@@ -19,8 +20,12 @@ contract Expense is
     ERC20Votes,
     ERC20FlashMint
 {
-    constructor() ERC20("Expense", "EXP") ERC20Permit("Expense") {
-        USDc = USDC(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); //initailize USDC contract
+    constructor(
+        address usdcAddress
+    ) ERC20("Expense", "EXP") ERC20Permit("Expense") {
+        // usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); // Initialize USDC contract
+        //TODO CHANGE THIS BEFORE PUTTING ON MAINNET
+        usdc = IERC20(usdcAddress);
     }
 
     function pause() public onlyOwner {
@@ -68,15 +73,15 @@ contract Expense is
     }
 
     //functionality so anyone can transfer USDC to contract
-    USDC public USDc;
+    using SafeERC20 for IERC20;
+    IERC20 public usdc;
 
     //functionality that allows transfer of USDC to contract
     function fundUSDC(uint _amount) public {
         // amount should be > 0
         require(_amount > 0, "amount should be > 0");
 
-        // transfer Dai to this contract for staking
-        USDc.transferFrom(msg.sender, address(this), _amount);
+        SafeERC20.safeTransferFrom(usdc, msg.sender, address(this), _amount);
     }
 
     //functionality that allows exchange of EXP for USDC
@@ -84,37 +89,14 @@ contract Expense is
         // amount should be > 0
         require(_amount > 0, "amount should be > 0");
 
-        // transfer EXP to this contract for staking
         _transfer(msg.sender, address(this), _amount);
 
         require(
-            USDc.balanceOf(address(this)) >= _amount,
+            usdc.balanceOf(address(this)) >= _amount,
             "Not enough USDC in contract"
         );
 
-        // transfer USDC to this contract for staking
-        USDc.transfer(msg.sender, _amount);
+        SafeERC20.safeTransfer(usdc, msg.sender, _amount);
+        _burn(address(this), _amount);
     }
-}
-
-interface USDC {
-    function balanceOf(address account) external view returns (uint256);
-
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint256);
-
-    function transfer(
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
-
-    function approve(address spender, uint256 amount) external returns (bool);
-
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
 }

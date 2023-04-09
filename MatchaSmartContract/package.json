@@ -1,7 +1,6 @@
 {
   "name": "matchasmartcontract",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,10 +8,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.2",
-    "hardhat": "^2.13.0"
+    "@openzeppelin/contracts": "^4.8.2"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.2"
-  }
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "hardhat": "^2.13.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
 }
