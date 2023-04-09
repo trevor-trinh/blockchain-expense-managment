@@ -25,7 +25,8 @@ contract Expense is
         ERC20("Expense", "EXP")
         ERC20Permit("Expense")
     {
-        usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); // Initialize USDC contract
+        usdc = IERC20(0xDf0360Ad8C5ccf25095Aa97ee5F2785c8d848620); //Goerli USDC mock
+        // usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48); // Initialize USDC contract
         //TODO CHANGE THIS BEFORE PUTTING ON MAINNET
         // usdc = IERC20(usdcAddress);
     }
