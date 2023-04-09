@@ -8,29 +8,13 @@ const hre = require("hardhat");
 
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const Expense = await hre.ethers.getContractFactory("Expense");
+  const hardhatExpense = await Expense.deploy();
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
-
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
+  await hardhatExpense.deployed();
 
   console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
-
-  const TestEXP = await hre.ethers.getContractFactory("Expense");
-  const testEXP = await TestEXP.deploy();
-
-  await testEXP.deployed();
-
-  console.log(
-    'deployed EXPcontract'
+    'deployed EXPcontract', hardhatExpense.address
   );
 }
 
