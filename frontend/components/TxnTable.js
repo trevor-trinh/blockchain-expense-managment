@@ -45,7 +45,7 @@ export default function TxnTable({ txns }) {
                             {txn.name}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                            ${txn.cost}
+                            💲{txn.amount}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
                             {txn.approved === true ? '✅' : '❌'}

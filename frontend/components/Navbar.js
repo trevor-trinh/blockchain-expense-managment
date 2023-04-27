@@ -20,7 +20,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="mr-6">
-              <Link href="/" className="text-white hover:text-gray-400">
+              <Link href="/balance" className="text-white hover:text-gray-400">
                 Balance
               </Link>
             </li>

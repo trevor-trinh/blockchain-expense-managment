@@ -1,15 +1,7 @@
-import Image from 'next/image';
 import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
 import TxnTable from '@/components/TxnTable';
 import { useEffect, useState } from 'react';
-// const txns = [
-//   {
-//     name: 'patagonia',
-//     cost: '100',
-//     approval: true,
-//   },
-// ];
+
 export default function Transactions() {
   const [txns, setTxns] = useState([]);
   useEffect(() => {
