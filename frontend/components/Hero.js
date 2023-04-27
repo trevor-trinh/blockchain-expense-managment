@@ -1,4 +1,5 @@
 import IdCard from './IdCard';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -68,11 +69,11 @@ export default function Hero() {
           </div>
 
           <div className="mt-4 flex items-center gap-x-6">
-            <a
-              href="#"
+            <Link
+              href="/transactions"
               className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
-              Get started
-            </a>
+              Get Started
+            </Link>
           </div>
         </div>
         <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
