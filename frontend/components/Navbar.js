@@ -27,12 +27,17 @@ const Navbar = () => {
           </ul>
         </div>
         <div>
-          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mr-4">
+          <Link
+            href="/signup"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mr-4">
             Sign Up
-          </button>
-          <button className="bg-transparent text-blue-500 font-bold py-2 px-4 border-style-none border-blue-500 rounded-full">
+          </Link>
+          <Link
+            href="/login"
+            className="bg-transparent text-blue-500 font-bold py-2 px-4 border-style-none border-blue-500 rounded-full">
             Login
-          </button>
+          </Link>
+
           {/* <Web3Button /> */}
         </div>
       </nav>

@@ -15,6 +15,9 @@ export default async function handler(req, res) {
       res.json(expenses);
     } catch (e) {
       console.error(e);
+      res
+        .status(500)
+        .send('Internal Server Error: ' + JSON.stringify(e, null, 2));
     }
   } else {
     res.status(405).send('Method Not Allowed');

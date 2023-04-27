@@ -1,4 +1,4 @@
-import Navbar from '../components/Navbar';
+import Layout from '@/components/Layout';
 import TxnTable from '@/components/TxnTable';
 import { useEffect, useState } from 'react';
 
@@ -12,14 +12,6 @@ export default function Transactions() {
     };
     fetchTxns();
   }, []);
-  return (
-    <div>
-      <Navbar />
-      <div className="h-screen relative isolate overflow-hidden bg-gray-900 mx-auto">
-        <div className="ml-8 mx-auto max-w-7xl px-6 pb-24 pt-14 sm:pb-32">
-          {txns && <TxnTable txns={txns} />}
-        </div>
-      </div>
-    </div>
-  );
+
+  return <Layout>{txns && <TxnTable txns={txns} />}</Layout>;
 }
