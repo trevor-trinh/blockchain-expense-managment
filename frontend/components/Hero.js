@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <div className="h-screen relative isolate overflow-hidden bg-gray-900 mx-auto">
+    <div className="w-100% h-screen relative isolate overflow-hidden bg-gray-900 mx-auto">
       <svg
         className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true">
