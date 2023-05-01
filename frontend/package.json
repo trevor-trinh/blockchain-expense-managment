@@ -20,6 +20,7 @@
     "wagmi": "^0.12.10"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/node": "18.7.5",
     "@types/react": "16.9.17",
     "autoprefixer": "^10.4.14",

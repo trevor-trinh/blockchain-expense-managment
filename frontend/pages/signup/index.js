@@ -45,19 +45,13 @@ const Cards = () => {
   }
 
   return (
-    <div className="divide-y overflow-hidden rounded-lg shadow flex flex-row justify-between">
-      {actions.map((action, actionIdx) => (
+    <div className="flex flex-row justify-between">
+      {actions.map((action) => (
         <div
           key={action.title}
-          className={classNames(
-            actionIdx === 0 ? 'rounded-lg rounded-lg sm:rounded-none' : '',
-            actionIdx === 1 ? 'sm:rounded-lg' : '',
-            actionIdx === actions.length - 2 ? 'sm:rounded-lg' : '',
-            actionIdx === actions.length - 1
-              ? 'rounded-lg rounded-lg sm:rounded-none'
-              : '',
-            'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-5/12'
-          )}>
+          className={
+            'rounded-lg group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 w-5/12'
+          }>
           <div>
             <span
               className={classNames(
