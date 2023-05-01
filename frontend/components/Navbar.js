@@ -13,32 +13,19 @@ const Navbar = () => {
           </Link>
           <ul className="ml-8 flex items-center">
             <li className="mr-6">
-              <Link
-                href="/transactions"
-                className="text-white hover:text-gray-400">
-                Transactions
+              <Link href="/employee" className="text-white hover:text-gray-400">
+                Employee
               </Link>
             </li>
             <li className="mr-6">
-              <Link href="/balance" className="text-white hover:text-gray-400">
-                Balance
+              <Link href="/company" className="text-white hover:text-gray-400">
+                Company
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <Link
-            href="/signup"
-            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mr-4">
-            Sign Up
-          </Link>
-          <Link
-            href="/login"
-            className="bg-transparent text-blue-500 font-bold py-2 px-4 border-style-none border-blue-500 rounded-full">
-            Login
-          </Link>
-
-          {/* <Web3Button /> */}
+          <Web3Button />
         </div>
       </nav>
     </header>

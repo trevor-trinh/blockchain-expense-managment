@@ -23,7 +23,7 @@ export default function Signup() {
 const actions = [
   {
     title: 'Employee',
-    href: '/signup/employee',
+    href: '/employee',
     icon: UserCircleIcon,
     iconForeground: 'text-teal-700',
     iconBackground: 'bg-teal-50',
@@ -31,7 +31,7 @@ const actions = [
   },
   {
     title: 'Company',
-    href: '/signup/company',
+    href: '/company',
     icon: BuildingStorefrontIcon,
     iconForeground: 'text-purple-700',
     iconBackground: 'bg-purple-50',
