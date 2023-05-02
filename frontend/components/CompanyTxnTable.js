@@ -78,7 +78,7 @@ export default function CompanyTxnTable({ txns }) {
                         <div className="flex justify-end">
                           <a
                             href={transaction.href}
-                            className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+                            className="text-sm font-medium leading-6 text-indigo-500 hover:text-indigo-400 hover:cursor-pointer">
                             View
                             <span className="hidden sm:inline">
                               {' '}
