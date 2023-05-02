@@ -1,6 +1,6 @@
 const IdCard = () => {
   return (
-    <div class="relative">
+    <div class="relative z-50">
       <img
         src={'images/BrianCard.png'}
         alt="My Image"

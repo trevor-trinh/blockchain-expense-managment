@@ -3,8 +3,8 @@ import { Web3Button } from '@web3modal/react';
 
 const Navbar = () => {
   return (
-    <header className="ml-8 bg-transparent absolute inset-x-0 top-3 z-50 ">
-      <nav className="bg-transparent py-4 px-8 flex justify-between items-center">
+    <header className="absolute inset-x-0 top-3 z-50 mx-auto max-w-7xl">
+      <nav className="py-4 px-8 flex justify-between items-center">
         <div className="flex items-center">
           <Link
             href="/"
