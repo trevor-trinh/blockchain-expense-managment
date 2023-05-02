@@ -14,11 +14,11 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background-color: #f2f2f2;
+  /* color: rgb(var(--foreground-rgb));
+  background-color: #f2f2f2; */
   height: 100%;
   margin: 0;
-} */
+}
