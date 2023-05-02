@@ -11,10 +11,11 @@ import {
   mainnet,
   polygon,
   polygonMumbai,
-  baseGoerli,
+  goerli,
 } from 'wagmi/chains';
+import { Toaster } from 'react-hot-toast';
 
-const chains = [baseGoerli, polygonMumbai, arbitrum, mainnet, polygon];
+const chains = [goerli, polygonMumbai, arbitrum, mainnet, polygon];
 const projectId = 'c7e93f07bce83658ef0667c21231faa2';
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
@@ -31,6 +32,7 @@ export default function App({ Component, pageProps }) {
       <WagmiConfig client={wagmiClient}>
         <Component {...pageProps} />
       </WagmiConfig>
+      <Toaster />
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   );
