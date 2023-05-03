@@ -9,7 +9,7 @@ export default function PlaidLink() {
   useEffect(() => {
     const createLinkToken = async () => {
       const response = await fetch('/api/create-link-token', {
-        method: 'POST'
+        method: 'POST',
       });
       const { link_token } = await response.json();
       setToken(link_token);
@@ -17,28 +17,25 @@ export default function PlaidLink() {
     createLinkToken();
   }, []);
 
-  const onSuccess = useCallback(async publicToken => {
+  const onSuccess = useCallback(async (publicToken) => {
     await fetch('/api/exchange-public-token', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ public_token: publicToken })
+      body: JSON.stringify({ public_token: publicToken }),
     });
     Router.push('/dash');
   }, []);
 
   const { open } = usePlaidLink({
     token,
-    onSuccess
+    onSuccess,
   });
 
-   return (
+  return (
     <Layout>
       <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <h1 className="text-3xl font-bold tracking-tight text-white text-center">
-          Employee Page
-        </h1>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={open}>
@@ -47,5 +44,5 @@ export default function PlaidLink() {
         <div className="mt-10"></div>
       </div>
     </Layout>
-   );
+  );
 }
