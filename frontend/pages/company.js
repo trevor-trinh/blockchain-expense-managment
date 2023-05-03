@@ -29,7 +29,7 @@ export default function Signup() {
       let sum = 0;
       for (let i = 0; i < data.length; i++) {
         if (data[i].status === 'approved') {
-          sum += data[i].amount;
+          sum += data[i].amount.toFixed();
         }
       }
 
