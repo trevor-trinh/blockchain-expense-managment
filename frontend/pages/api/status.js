@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       const client = await clientPromise;
       const db = client.db('expenses');
 
-      const out = await db
+      await db
         .collection('Expense')
         .updateMany(
           { _id: { $in: transactions.map((txn) => ObjectId(txn)) } },

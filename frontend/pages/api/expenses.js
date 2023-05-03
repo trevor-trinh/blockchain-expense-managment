@@ -6,11 +6,7 @@ export default async function handler(req, res) {
       const client = await clientPromise;
       const db = client.db('expenses');
 
-      const expenses = await db
-        .collection('Expense')
-        .find({})
-        .limit(10)
-        .toArray();
+      const expenses = await db.collection('Expense').find({}).toArray();
 
       res.json(expenses);
     } catch (e) {
