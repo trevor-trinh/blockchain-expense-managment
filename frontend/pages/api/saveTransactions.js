@@ -1,18 +1,37 @@
-// pages/api/saveTransactions.js
-import { connectToDatabase } from '../../lib/mango';
+import clientPromise from '../../lib/mongodb';
+
+const transformTxns = (txns) => {
+  return txns.map((txn) => {
+    const transformTxn = {
+      amount: txn.amount,
+      title: txn.name,
+      description: txn.category.join(', '),
+      date: txn.date,
+      status: 'pending',
+    };
+    return transformTxn;
+  });
+};
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { transactions } = req.body;
-    const { db } = await connectToDatabase();
-    
     try {
-      await db.collection('transactions').insertMany(transactions);
+      const { transactions } = req.body;
+      const client = await clientPromise;
+      const db = client.db('expenses');
+
+      const expenses = transformTxns(transactions);
+      await db.collection('Expense').insertMany(expenses);
+      console.log(expenses);
       res.status(200).json({ message: 'Transactions saved successfully' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error saving transactions', error });
+      // res.json(txns);
+    } catch (e) {
+      console.error(e);
+      res
+        .status(500)
+        .send('Internal Server Error: ' + JSON.stringify(e, null, 2));
     }
   } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).send('Method Not Allowed');
   }
 }
