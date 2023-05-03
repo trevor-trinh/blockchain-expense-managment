@@ -8,6 +8,8 @@ import { toast } from 'react-hot-toast';
 export default function Signup() {
   const [txns, setTxns] = useState([]);
   const [totalTokens, setTotalTokens] = useState(0);
+  const [selectedTransactions, setSelectedTransactions] = useState({});
+  const [txnsChanged, setTxnsChanged] = useState(false);
 
   const { config } = usePrepareContractWrite({
     address: contractAddress,
@@ -35,21 +37,56 @@ export default function Signup() {
       setTotalTokens(sum);
     };
     fetchTxns();
-  }, []);
+  }, [txnsChanged]);
 
   useEffect(() => {
     if (isSuccess) {
       toast.success('Minted!');
+      setTxnsChanged((prev) => !prev);
     }
     if (isError) {
       toast.error('Error!\n' + error);
       console.log(error);
     }
     reset();
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, txnsChanged]);
 
   const mintTxns = () => {
     write?.();
+  };
+
+  const handleSubmit = async (status) => {
+    const selectedTransactionData = [];
+
+    for (const key in selectedTransactions) {
+      selectedTransactionData.push(key);
+    }
+
+    try {
+      const res = await fetch('/api/status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transactions: selectedTransactionData,
+          status: status,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success('Transcactions ' + status);
+        setSelectedTransactions({});
+        setTxnsChanged((prev) => !prev);
+      } else {
+        const data = await response.json();
+        toast.error(
+          `Error ${status.substring(-2)}ing transactions: ${data.message}`
+        );
+      }
+    } catch (error) {
+      toast.error(`Error saving transactions: ${error.message}`);
+    }
   };
 
   return (
@@ -68,7 +105,7 @@ export default function Signup() {
                     their name, cost, and approval status.
                   </p>
                 </div>
-                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex flex-row gap-4">
                   <button
                     onClick={mintTxns}
                     type="button"
@@ -82,6 +119,22 @@ export default function Signup() {
                       : !write
                       ? '❌ Error! Not owner.'
                       : 'Mint Approved Txns'}
+                  </button>
+                  <button
+                    onClick={() => handleSubmit('approved')}
+                    type="button"
+                    className={
+                      'block rounded-md bg-green-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                    }>
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleSubmit('rejected')}
+                    type="button"
+                    className={
+                      'block rounded-md bg-red-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                    }>
+                    Reject
                   </button>
                 </div>
               </div>
@@ -98,11 +151,17 @@ export default function Signup() {
                           description: '',
                         },
                       ]}
+                      selectedTransactions={selectedTransactions}
+                      setSelectedTransactions={setSelectedTransactions}
                     />
                   )}
                 </div>
               ) : (
-                <CompanyTxnTable txns={txns} />
+                <CompanyTxnTable
+                  txns={txns}
+                  selectedTransactions={selectedTransactions}
+                  setSelectedTransactions={setSelectedTransactions}
+                />
               )}
             </div>
           </div>

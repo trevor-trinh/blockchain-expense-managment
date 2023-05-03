@@ -1,4 +1,5 @@
 import { XMarkIcon, ArrowPathIcon, CheckIcon } from '@heroicons/react/20/solid';
+import { useState, useEffect } from 'react';
 
 const statuses = {
   approved: {
@@ -19,7 +20,22 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function CompanyTxnTable({ txns }) {
+export default function CompanyTxnTable({
+  txns,
+  selectedTransactions,
+  setSelectedTransactions,
+}) {
+  const toggleTransactionSelection = (transactionId) => {
+    setSelectedTransactions((prev) => ({
+      ...prev,
+      [transactionId]: !prev[transactionId],
+    }));
+  };
+
+  const handleRowClick = (transactionId) => {
+    toggleTransactionSelection(transactionId);
+  };
+
   return (
     <div className="mt-8 flow-root rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 px-5">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
@@ -31,7 +47,14 @@ export default function CompanyTxnTable({ txns }) {
                   const status = statuses[transaction.status].className;
                   const Icon = statuses[transaction.status].icon;
                   return (
-                    <tr key={transaction.id}>
+                    <tr
+                      key={transaction._id}
+                      onClick={() => handleRowClick(transaction._id)}
+                      className={`${
+                        selectedTransactions[transaction._id]
+                          ? 'selected bg-green-900 rounded-lg p-4'
+                          : ''
+                      }`}>
                       <td className="relative py-5 pr-6">
                         <div className="flex gap-x-6">
                           <Icon
