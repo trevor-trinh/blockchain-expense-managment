@@ -10,8 +10,6 @@ import '@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol';
 import '@openzeppelin/contracts/token/ERC20/extensions/ERC20FlashMint.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 
-// deployed on mumbai
-
 contract SimpliSpend is
     ERC20,
     ERC20Burnable,
@@ -22,15 +20,27 @@ contract SimpliSpend is
     ERC20FlashMint
 {
     using SafeERC20 for IERC20;
+
     IERC20 public usdc;
+
+    enum TransactionStatus {
+        Pending,
+        Approved,
+        Denied
+    }
+
+    struct Transaction {
+        string detailsHash;
+        uint256 cost;
+        TransactionStatus status;
+        address user;
+    }
+
+    Transaction[] public transactions;
 
     constructor(
         address usdcAddress
     ) ERC20('SimpliSpend', 'SIMP') ERC20Permit('SimpliSpend') {
-        // add usdc mumbai address
-        // can send contract usdc
-
-        // mumbai mock usdc
         usdc = IERC20(usdcAddress);
     }
 
@@ -55,7 +65,6 @@ contract SimpliSpend is
     }
 
     // The following functions are overrides required by Solidity.
-
     function _afterTokenTransfer(
         address from,
         address to,
@@ -78,15 +87,44 @@ contract SimpliSpend is
         super._burn(account, amount);
     }
 
-    // functionality that allows transfer of USDC to contract
-    function fundUSDC(uint _amount) external {
+    function fundUSDC(uint256 _amount) external {
         require(_amount > 0, 'deposit amount should be > 0');
-
         SafeERC20.safeTransferFrom(usdc, msg.sender, address(this), _amount);
     }
 
-    // functionality that allows exchange of EXP for USDC
-    function exchangeEXP(uint _amount) public {
+    function logTransaction(string memory _detailsHash, uint256 _cost) public {
+        transactions.push(
+            Transaction({
+                detailsHash: _detailsHash,
+                cost: _cost,
+                status: TransactionStatus.Pending,
+                user: msg.sender
+            })
+        );
+    }
+
+    function approveTransaction(uint256 _transactionId) public onlyOwner {
+        Transaction storage transaction = transactions[_transactionId];
+        require(
+            transaction.status == TransactionStatus.Pending,
+            'Transaction is not Pending'
+        );
+
+        transaction.status = TransactionStatus.Approved;
+        _mint(transaction.user, transaction.cost);
+    }
+
+    function denyTransaction(uint256 _transactionId) public onlyOwner {
+        Transaction storage transaction = transactions[_transactionId];
+        require(
+            transaction.status == TransactionStatus.Pending,
+            'Transaction is not Pending'
+        );
+
+        transaction.status = TransactionStatus.Denied;
+    }
+
+    function exchangeEXP(uint256 _amount) public {
         require(_amount > 0, 'exchange amount should be > 0');
         require(
             usdc.balanceOf(address(this)) >= _amount,

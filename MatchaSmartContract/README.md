@@ -1,4 +1,4 @@
-SimpliSpend: https://mumbai.polygonscan.com/address/0x95C62dC55142E17164fA80E1E2D4Fd0967ee13bB
+SimpliSpend: https://mumbai.polygonscan.com/address/0xB35E3b02a577a481A46c9Ac93F2f1F301Cfd01Fd
 
 MockUSDC: https://mumbai.polygonscan.com/token/0xa4cbc33cc3d3f7e9338db3950c8d37435a602607
 

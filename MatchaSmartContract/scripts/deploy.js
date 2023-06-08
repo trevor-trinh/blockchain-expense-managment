@@ -14,6 +14,19 @@ async function main() {
     '\nTo Verify run:\n',
     `npx hardhat verify --network mumbai ${SimpliSpend.address} ${usdcAddress}`
   );
+
+  console.log('\nApproving SimpliSpend to transfer USDC from deployer...');
+  const [deployer] = await ethers.getSigners();
+
+  const USDC = await ethers.getContractAt('IERC20', usdcAddress);
+
+  const approveTx = await USDC.connect(deployer).approve(
+    SimpliSpend.address,
+    ethers.constants.MaxUint256
+  );
+  await approveTx.wait();
+
+  console.log('🥳 Approved SimpliSpend to transfer USDC from deployer');
 }
 
 main().catch((error) => {
