@@ -1,6 +1,16 @@
-SimpliSpend: https://mumbai.polygonscan.com/address/0xB35E3b02a577a481A46c9Ac93F2f1F301Cfd01Fd
+SimpliSpend:
 
-MockUSDC: https://mumbai.polygonscan.com/token/0xa4cbc33cc3d3f7e9338db3950c8d37435a602607
+```
+Address:0x53bCF3D773aA483d9E49135e8ac8777EfEb4818C
+https://mumbai.polygonscan.com/address/0x53bCF3D773aA483d9E49135e8ac8777EfEb4818C
+```
+
+MockUSDC:
+
+```
+Address: 0x731Aaada70FfB1C1679a4aaA5d73252605dF06Cd
+https://mumbai.polygonscan.com/token/0x731Aaada70FfB1C1679a4aaA5d73252605dF06Cd
+```
 
 deploy mockusdc
 

@@ -2,16 +2,16 @@ const hre = require('hardhat');
 
 async function main() {
   // change as needed
-  const usdcAddress = '0xa4cBc33Cc3d3f7e9338DB3950c8D37435A602607';
+  const usdcAddress = '0x731Aaada70FfB1C1679a4aaA5d73252605dF06Cd';
 
   const simpFactory = await hre.ethers.getContractFactory('SimpliSpend');
   const SimpliSpend = await simpFactory.deploy(usdcAddress);
 
   await SimpliSpend.deployed();
 
-  console.log('Deployed EXPcontract: ', SimpliSpend.address);
+  console.log('🥳 Deployed SimpliSpend Contract: ', SimpliSpend.address);
   console.log(
-    '\nTo Verify run:\n',
+    '[❗] To Verify run:\n',
     `npx hardhat verify --network mumbai ${SimpliSpend.address} ${usdcAddress}`
   );
 
@@ -26,7 +26,7 @@ async function main() {
   );
   await approveTx.wait();
 
-  console.log('🥳 Approved SimpliSpend to transfer USDC from deployer');
+  console.log('🥳 Approved!');
 }
 
 main().catch((error) => {

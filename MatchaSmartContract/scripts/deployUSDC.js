@@ -6,11 +6,15 @@ async function main() {
 
   await mockUSDC.deployed();
 
-  console.log('MockUSDC deployed to:', mockUSDC.address);
+  console.log('🥳 MockUSDC deployed to:', mockUSDC.address);
   console.log(
-    '\nTo Verify run:\n',
+    '[❗] To Verify run:\n',
     `npx hardhat verify --network mumbai --contract contracts/MockUSDC.sol:MockUSDC ${mockUSDC.address}
   `
+  );
+  console.log(
+    '\n[❗] Remember to replace the MockUSDC address in scripts/deploy.js! Replace with: ',
+    mockUSDC.address
   );
 }
 
