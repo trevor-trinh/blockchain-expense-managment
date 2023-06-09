@@ -10,7 +10,7 @@ const GORELI_ETHERSCAN_KEY = 'KE44GSZK598SGKDCHQJHD26TU8NHFBT29T';
 
 module.exports = {
   solidity: '0.8.9',
-  defaultNetwork: 'goerli',
+  defaultNetwork: 'mumbai',
   networks: {
     goerli: {
       url: `https://eth-goerli.g.alchemy.com/v2/TDezl_W3Oyz-aw0D6iise9FGf6htp333`,
@@ -19,6 +19,11 @@ module.exports = {
     mumbai: {
       url: process.env.MUMBAI_URL,
       accounts: [process.env.PRIVATE_KEY],
+    },
+    hardhat: {
+      accounts: {
+        accountsBalance: '10000000000000000000000', // 10,000 ETH
+      },
     },
   },
   etherscan: {
