@@ -20,7 +20,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function CompanyTxnTable({
+export default function ClubTxnTable({
   txns,
   selectedTransactions,
   setSelectedTransactions,

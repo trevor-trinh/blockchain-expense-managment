@@ -9,17 +9,17 @@ const Navbar = () => {
           <Link
             href="/"
             className="font-bold text-xl text-white hover:text-gray-400">
-            Expense.
+            SimpliSpend
           </Link>
           <ul className="ml-8 flex items-center">
             <li className="mr-6">
-              <Link href="/employee" className="text-white hover:text-gray-400">
-                Employee
+              <Link href="/student" className="text-white hover:text-gray-400">
+                Student
               </Link>
             </li>
             <li className="mr-6">
-              <Link href="/company" className="text-white hover:text-gray-400">
-                Company
+              <Link href="/club" className="text-white hover:text-gray-400">
+                Club
               </Link>
             </li>
           </ul>

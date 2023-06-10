@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
-import CompanyTxnTable from '@/components/CompanyTxnTable';
+import ClubTxnTable from '@/components/ClubTxnTable';
 import { useState, useEffect } from 'react';
-import { contractABI, contractAddress, employeeAddress } from '@/config';
+import { contractABI, contractAddress, studentAddress } from '@/config';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import { toast } from 'react-hot-toast';
 
@@ -15,7 +15,7 @@ export default function Signup() {
     address: contractAddress,
     abi: contractABI,
     functionName: 'mint',
-    args: [employeeAddress, totalTokens],
+    args: [studentAddress, totalTokens],
   });
 
   const { reset, isLoading, isSuccess, write, isError, error } =
@@ -141,7 +141,7 @@ export default function Signup() {
               {txns === undefined || txns.length === 0 ? (
                 <div className="animate-pulse">
                   {txns && (
-                    <CompanyTxnTable
+                    <ClubTxnTable
                       txns={[
                         {
                           _id: '',
@@ -157,7 +157,7 @@ export default function Signup() {
                   )}
                 </div>
               ) : (
-                <CompanyTxnTable
+                <ClubTxnTable
                   txns={txns}
                   selectedTransactions={selectedTransactions}
                   setSelectedTransactions={setSelectedTransactions}

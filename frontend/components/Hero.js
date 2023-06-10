@@ -53,7 +53,7 @@ export default function Hero() {
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-300">
               Take control of your finances and simplify your life with our
-              cutting-edge expense management website.
+              cutting-edge expense management website, Simpli Spend.
             </p>
             <div className="mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2">
               <div>
@@ -80,12 +80,12 @@ export default function Hero() {
           </div>
           <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
             <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none relative">
-              <IdCard />
+              <IdCard src="images/TrevorCard.png" />
               <div className="absolute inset-1/4 w-full h-full object-cover rounded-lg rotate-[20deg] z-40">
-                <IdCard />
+                <IdCard src="images/DerrickCard.png" />
               </div>
               <div className="absolute inset-2/4 w-full h-full object-cover rounded-lg rotate-[35deg] z-30">
-                <IdCard />
+                <IdCard src="images/BrianCard.png" />
               </div>
             </div>
           </div>

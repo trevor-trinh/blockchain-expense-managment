@@ -10,7 +10,7 @@ export default function Signup() {
     <Layout>
       <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <h1 className="text-3xl font-bold tracking-tight text-white text-center">
-          How will you use Expense.?
+          How will you SimpliSpend?
         </h1>
         <div className="mt-10">
           <Cards />
@@ -22,16 +22,16 @@ export default function Signup() {
 
 const actions = [
   {
-    title: 'Employee',
-    href: '/employee',
+    title: 'Student',
+    href: '/student',
     icon: UserCircleIcon,
     iconForeground: 'text-teal-700',
     iconBackground: 'bg-teal-50',
     text: 'Connect your card and make life easy through quick and efficient reimbursements',
   },
   {
-    title: 'Company',
-    href: '/company',
+    title: 'Club',
+    href: '/club',
     icon: BuildingStorefrontIcon,
     iconForeground: 'text-purple-700',
     iconBackground: 'bg-purple-50',
