@@ -1,7 +1,18 @@
 import { AreaChart, linearGradient, Area, XAxis } from 'recharts';
 import { useState, useEffect } from 'react';
-import { useContractRead } from 'wagmi';
-import { contractABI, contractAddress, usdcAddress, usdcABI } from '@/config';
+import { toast } from 'react-hot-toast';
+
+import {
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from 'wagmi';
+import {
+  contractABI,
+  contractAddress,
+  usdcAddress,
+  usdcABI,
+} from '@/lib/config';
 import { ethers } from 'ethers';
 
 const data = [
@@ -24,6 +35,19 @@ const data = [
 
 export default function Balances() {
   const [stats, setStats] = useState();
+
+  const {
+    data: simpFundUSDC,
+    isLoading,
+    isSuccess: fundSuccess,
+    isError: fundError,
+    write,
+  } = useContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: 'fundUSDC',
+    args: [100],
+  });
 
   const {
     data: usdcData,
@@ -94,6 +118,28 @@ export default function Balances() {
     reimbursedError,
   ]);
 
+  useEffect(() => {
+    if (fundSuccess) {
+      toast.success('Funded 100 USDC!');
+      setStats((prevStats) => {
+        return prevStats.map((item) => {
+          if (item.name === 'Deposited USDC') {
+            return {
+              ...item,
+              value: item.value + 100,
+            };
+          } else {
+            return item;
+          }
+        });
+      });
+    }
+    if (fundError) {
+      toast.error('Error!\n' + error);
+      console.log(error);
+    }
+  }, [fundSuccess, fundError]);
+
   return (
     <div className="py-6 px-2">
       <div className="sm:flex sm:items-center">
@@ -103,6 +149,14 @@ export default function Balances() {
           </h1>
           <p className="mt-2 text-sm text-gray-300">Your current balances.</p>
         </div>
+        <button
+          onClick={() => write()}
+          type="button"
+          className={
+            'block rounded-md bg-green-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+          }>
+          💵 Fund USDC
+        </button>
       </div>
       {stats ? (
         <>
