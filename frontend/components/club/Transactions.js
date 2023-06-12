@@ -1,8 +1,9 @@
-import ClubTxnTable from '@/components/ClubTxnTable';
+import ClubTxnTable from './ClubTxnTable';
 import { useState, useEffect } from 'react';
-import { contractABI, contractAddress, studentAddress } from '@/config';
+import { contractABI, contractAddress, studentAddress } from '@/lib/config';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 import { toast } from 'react-hot-toast';
+
 export default function Transactions() {
   const [txns, setTxns] = useState([]);
   const [totalTokens, setTotalTokens] = useState(0);
@@ -19,6 +20,7 @@ export default function Transactions() {
   const { reset, isLoading, isSuccess, write, isError, error } =
     useContractWrite(config);
 
+  // fetching txns from mongodb
   useEffect(() => {
     const fetchTxns = async () => {
       const response = await fetch('/api/expenses');
@@ -37,6 +39,7 @@ export default function Transactions() {
     fetchTxns();
   }, [txnsChanged]);
 
+  // TODO: change this to approve/deny
   useEffect(() => {
     if (isSuccess) {
       toast.success('Minted!');
@@ -49,10 +52,7 @@ export default function Transactions() {
     reset();
   }, [isError, isSuccess, txnsChanged]);
 
-  const mintTxns = () => {
-    write?.();
-  };
-
+  // TODO: change this to approve/deny on/off chain
   const handleSubmit = async (status) => {
     const selectedTransactionData = [];
 
@@ -101,26 +101,12 @@ export default function Transactions() {
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex flex-row gap-4">
           <button
-            onClick={mintTxns}
-            type="button"
-            className={`block rounded-md bg-indigo-500 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-              !write || isLoading || isError
-                ? 'opacity-50 cursor-not-allowed'
-                : ''
-            }`}>
-            {isLoading
-              ? '💭 Loading...'
-              : !write
-              ? '❌ Error! Not owner.'
-              : 'Mint Approved Txns'}
-          </button>
-          <button
             onClick={() => handleSubmit('approved')}
             type="button"
             className={
               'block rounded-md bg-green-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             }>
-            Approve
+            ✅ Approve
           </button>
           <button
             onClick={() => handleSubmit('rejected')}
@@ -128,7 +114,7 @@ export default function Transactions() {
             className={
               'block rounded-md bg-red-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             }>
-            Reject
+            ❌ Reject
           </button>
         </div>
       </div>
@@ -137,11 +123,18 @@ export default function Transactions() {
           <div className="animate-spin rounded-full h-16 w-16 border-spacing-3 border-b-2 border-indigo-400"></div>
         </div>
       ) : (
-        <ClubTxnTable
-          txns={txns}
-          selectedTransactions={selectedTransactions}
-          setSelectedTransactions={setSelectedTransactions}
-        />
+        <div className="mt-6 px-6 pt-4 pb-6 bg-gray-900 shadow-2xl ring-1 ring-white/10">
+          <div className="text-center">
+            <h3 className="text-base font-semibold text-white">
+              🔗 On Chain 🔗
+            </h3>
+          </div>
+          <ClubTxnTable
+            txns={txns}
+            selectedTransactions={selectedTransactions}
+            setSelectedTransactions={setSelectedTransactions}
+          />
+        </div>
       )}
     </div>
   );

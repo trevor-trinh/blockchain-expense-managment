@@ -12,4 +12,10 @@ module.exports = {
     extend: {},
   },
   plugins: [require('@tailwindcss/forms')],
+  variants: {
+    extend: {
+      opacity: ['group-hover'],
+      visibility: ['group-hover'],
+    },
+  },
 };

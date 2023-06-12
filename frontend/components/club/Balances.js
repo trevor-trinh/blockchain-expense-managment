@@ -91,17 +91,17 @@ export default function Balances() {
     ) {
       setStats([
         {
-          name: 'SIMP Token (Outstanding)',
+          name: 'SIMP Tokens 🥰',
           value: ethers.BigNumber.from(simpData).toNumber(),
           unit: 'SIMP',
         },
         {
-          name: 'Deposited USDC',
+          name: 'Deposited USDC 💰',
           value: ethers.BigNumber.from(usdcData).toNumber(),
           unit: 'USDC',
         },
         {
-          name: 'Total Expensed',
+          name: 'Total Expensed 💸',
           value: `\$${ethers.BigNumber.from(reimbursedData).toNumber()}`,
         },
       ]);
@@ -183,7 +183,7 @@ export default function Balances() {
             <div className="mt-6 px-4 py-6 bg-gray-900 shadow-2xl ring-1 ring-white/10 inline-block">
               <div className="text-center">
                 <h2 className="text-base font-semibold leading-6 text-white">
-                  Monthly Progress
+                  Monthly Progress 💹
                 </h2>
                 <p className="mt-2 text-sm text-gray-300">
                   Your expenses over time.

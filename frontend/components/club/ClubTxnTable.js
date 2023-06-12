@@ -37,9 +37,9 @@ export default function ClubTxnTable({
   };
 
   return (
-    <div className="mt-8 flow-root rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 px-5">
+    <div className="mt-4 flow-root rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10 px-5 sm:px-6 lg:px-8">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
-        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div className="inline-block min-w-full py-2 align-middle ">
           <div className="overflow-hidden sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-700">
               <tbody className="divide-y divide-gray-700">
@@ -52,10 +52,10 @@ export default function ClubTxnTable({
                       onClick={() => handleRowClick(transaction._id)}
                       className={`${
                         selectedTransactions[transaction._id]
-                          ? 'selected bg-green-900 rounded-lg p-4'
+                          ? 'selected bg-gray-700 rounded-lg'
                           : ''
                       }`}>
-                      <td className="relative py-5 pr-6">
+                      <td className="relative py-5 pr-6 pl-4">
                         <div className="flex gap-x-6">
                           <Icon
                             className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
@@ -87,7 +87,7 @@ export default function ClubTxnTable({
                           </div>
                         </div>
                       </td>
-                      <td className="hidden py-5 pr-6 sm:table-cell">
+                      <td className="hidden py-5 pr-6 pl-4 sm:table-cell">
                         <div className="text-sm leading-6 text-gray-300">
                           {transaction.title}
                         </div>
@@ -97,30 +97,23 @@ export default function ClubTxnTable({
                           </div>
                         ) : null}
                       </td>
-                      <td className="py-5 text-right">
+                      <td className="py-5 pr-4 text-right">
                         <div className="flex justify-end">
                           <a
                             href={transaction.href}
+                            target="_blank"
+                            rel="noreferrer"
                             className="text-sm font-medium leading-6 text-indigo-500 hover:text-indigo-400 hover:cursor-pointer">
-                            View
-                            <span className="hidden sm:inline">
-                              {' '}
-                              transaction
-                            </span>
-                            <span className="sr-only">
-                              , invoice #
-                              {transaction._id.substr(
-                                transaction._id.length - 5
-                              )}
-                              , {transaction.name}
-                            </span>
+                            View transaction
                           </a>
                         </div>
                         <div className="mt-1 text-xs leading-5 text-gray-500">
-                          Invoice{' '}
+                          hash{' '}
                           <span className="text-gray-300">
                             #
-                            {transaction._id.substr(transaction._id.length - 5)}
+                            {transaction.hash?.substr(
+                              transaction.hash?.length - 10
+                            )}
                           </span>
                         </div>
                       </td>
