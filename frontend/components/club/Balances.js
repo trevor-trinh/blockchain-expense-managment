@@ -46,8 +46,25 @@ export default function Balances() {
     functionName: 'totalSupply',
   });
 
+  const {
+    data: reimbursedData,
+    isError: reimbursedError,
+    isLoading: reimbursedLoading,
+  } = useContractRead({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: 'totalExpensed',
+  });
+
   useEffect(() => {
-    if (!usdcLoading && !simpLoading && !usdcError && !simpError) {
+    if (
+      !usdcLoading &&
+      !simpLoading &&
+      !reimbursedLoading &&
+      !usdcError &&
+      !simpError &&
+      !reimbursedError
+    ) {
       setStats([
         {
           name: 'SIMP Token (Outstanding)',
@@ -61,11 +78,21 @@ export default function Balances() {
         },
         {
           name: 'Total Expensed',
-          value: `\$${Math.floor(Math.random() * 5000)}`,
+          value: `\$${ethers.BigNumber.from(reimbursedData).toNumber()}`,
         },
       ]);
     }
-  }, [usdcData, simpData, usdcLoading, simpLoading, usdcError, simpError]);
+  }, [
+    usdcData,
+    simpData,
+    reimbursedData,
+    usdcLoading,
+    simpLoading,
+    reimbursedLoading,
+    usdcError,
+    simpError,
+    reimbursedError,
+  ]);
 
   return (
     <div className="py-6 px-2">

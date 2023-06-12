@@ -10,6 +10,7 @@ contract SimpliSpend is ERC20, ERC20Burnable, Ownable {
     using SafeERC20 for IERC20;
 
     IERC20 public usdc;
+    uint256 public totalExpensed;
 
     enum TransactionStatus {
         Pending,
@@ -84,6 +85,8 @@ contract SimpliSpend is ERC20, ERC20Burnable, Ownable {
         // burn EXP from user
         _transfer(msg.sender, address(this), _amount);
         _burn(address(this), _amount);
+
+        totalExpensed += _amount; // Increase totalExpensed by the amount expensed
     }
 
     // The following functions are overrides required by Solidity.
