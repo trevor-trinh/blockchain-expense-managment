@@ -1,90 +1,75 @@
 import ClubTxnTable from './ClubTxnTable';
 import { useState, useEffect } from 'react';
-import { contractABI, contractAddress, studentAddress } from '@/lib/config';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { contractABI, contractAddress } from '@/lib/config';
+import { useContractRead } from 'wagmi';
 import { toast } from 'react-hot-toast';
+import { ethers } from 'ethers';
 
 export default function Transactions() {
   const [txns, setTxns] = useState([]);
-  const [totalTokens, setTotalTokens] = useState(0);
   const [selectedTransactions, setSelectedTransactions] = useState({});
   const [txnsChanged, setTxnsChanged] = useState(false);
 
-  const { config } = usePrepareContractWrite({
+  const {
+    data: txnCount,
+    isError: txnCountError,
+    isLoading: txnCountLoading,
+  } = useContractRead({
     address: contractAddress,
     abi: contractABI,
-    functionName: 'mint',
-    args: [studentAddress, totalTokens],
+    functionName: 'getTransactionsCount',
   });
 
-  const { reset, isLoading, isSuccess, write, isError, error } =
-    useContractWrite(config);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(contractAddress, contractABI, provider);
+  const signer = provider.getSigner();
+  const contractWithSigner = contract.connect(signer);
 
   // fetching txns from mongodb
+  // combine with fetching txns from blockchain
   useEffect(() => {
     const fetchTxns = async () => {
       const response = await fetch('/api/expenses');
       const data = await response.json();
 
-      let sum = 0;
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].status === 'approved') {
-          sum += data[i].amount.toFixed();
+      // could lead to errors if mongodb is not in sync with blockchain
+      for (let i = 0; i < ethers.BigNumber.from(txnCount).toNumber(); i++) {
+        const chainTxn = await contract.transactions(i);
+        const matchingTxn = data[data.findIndex((x) => x.txnId === i)];
+        if (matchingTxn) {
+          matchingTxn.status = chainTxn.status;
         }
       }
 
       setTxns(data);
-      setTotalTokens(sum);
     };
-    fetchTxns();
+
+    if (txnCount) {
+      fetchTxns();
+    }
   }, [txnsChanged]);
 
-  // TODO: change this to approve/deny
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Minted!');
-      setTxnsChanged((prev) => !prev);
-    }
-    if (isError) {
-      toast.error('Error!\n' + error);
-      console.log(error);
-    }
-    reset();
-  }, [isError, isSuccess, txnsChanged]);
-
-  // TODO: change this to approve/deny on/off chain
+  // approve/deny goes over all selectedTransactions and calls contract on txnId
   const handleSubmit = async (status) => {
     const selectedTransactionData = [];
-
-    for (const key in selectedTransactions) {
-      selectedTransactionData.push(key);
-    }
-
-    try {
-      const res = await fetch('/api/status', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          transactions: selectedTransactionData,
-          status: status,
-        }),
-      });
-
-      if (res.ok) {
-        toast.success('Transcactions ' + status);
-        setSelectedTransactions({});
-        setTxnsChanged((prev) => !prev);
-      } else {
-        const data = await response.json();
-        toast.error(
-          `Error ${status.substring(-2)}ing transactions: ${data.message}`
-        );
+    for (const tx in selectedTransactions) {
+      if (selectedTransactions[tx]) {
+        selectedTransactionData.push(tx);
       }
-    } catch (error) {
-      toast.error(`Error saving transactions: ${error.message}`);
     }
+
+    if (status === 'approve') {
+      for (let i = 0; i < selectedTransactionData.length; i++) {
+        await contractWithSigner.approveTransaction(selectedTransactionData[i]);
+        toast.success('Approved!');
+      }
+    } else {
+      for (let i = 0; i < selectedTransactionData.length; i++) {
+        await contractWithSigner.denyTransaction(selectedTransactionData[i]);
+        toast.error('Denied!');
+      }
+    }
+    setTxnsChanged((prev) => !prev);
   };
 
   return (
@@ -101,7 +86,7 @@ export default function Transactions() {
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex flex-row gap-4">
           <button
-            onClick={() => handleSubmit('approved')}
+            onClick={() => handleSubmit('approve')}
             type="button"
             className={
               'block rounded-md bg-green-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
@@ -109,7 +94,7 @@ export default function Transactions() {
             ✅ Approve
           </button>
           <button
-            onClick={() => handleSubmit('rejected')}
+            onClick={() => handleSubmit('reject')}
             type="button"
             className={
               'block rounded-md bg-red-700 px-3 py-1.5 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'

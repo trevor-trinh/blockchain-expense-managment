@@ -2,15 +2,15 @@ import { XMarkIcon, ArrowPathIcon, CheckIcon } from '@heroicons/react/20/solid';
 import { useState, useEffect } from 'react';
 
 const statuses = {
-  approved: {
+  1: {
     icon: CheckIcon,
     className: 'text-green-700 bg-green-50 ring-green-600/20',
   },
-  pending: {
+  0: {
     icon: ArrowPathIcon,
     className: 'text-gray-600 bg-gray-50 ring-gray-500/10',
   },
-  rejected: {
+  2: {
     icon: XMarkIcon,
     className: 'text-red-700 bg-red-50 ring-red-600/10',
   },
@@ -48,10 +48,10 @@ export default function ClubTxnTable({
                   const Icon = statuses[transaction.status].icon;
                   return (
                     <tr
-                      key={transaction._id}
-                      onClick={() => handleRowClick(transaction._id)}
+                      key={transaction.txnId}
+                      onClick={() => handleRowClick(transaction.txnId)}
                       className={`${
-                        selectedTransactions[transaction._id]
+                        selectedTransactions[transaction.txnId]
                           ? 'selected bg-gray-700 rounded-lg'
                           : ''
                       }`}>
@@ -71,7 +71,11 @@ export default function ClubTxnTable({
                                   status,
                                   'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
                                 )}>
-                                {transaction.status}
+                                {transaction.status === 0
+                                  ? 'pending'
+                                  : transaction.status === 1
+                                  ? 'approved'
+                                  : 'rejected'}
                               </div>
                             </div>
                             {transaction.date ? (
@@ -100,20 +104,18 @@ export default function ClubTxnTable({
                       <td className="py-5 pr-4 text-right">
                         <div className="flex justify-end">
                           <a
-                            href={transaction.href}
+                            href={`https://mumbai.polygonscan.com/address/${transaction.wallet}`}
                             target="_blank"
                             rel="noreferrer"
                             className="text-sm font-medium leading-6 text-indigo-500 hover:text-indigo-400 hover:cursor-pointer">
-                            View transaction
+                            View Wallet
                           </a>
                         </div>
                         <div className="mt-1 text-xs leading-5 text-gray-500">
                           hash{' '}
                           <span className="text-gray-300">
-                            #
-                            {transaction.hash?.substr(
-                              transaction.hash?.length - 10
-                            )}
+                            0x
+                            {transaction.hash.substr(0, 8)}
                           </span>
                         </div>
                       </td>
