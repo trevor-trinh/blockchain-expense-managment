@@ -1,12 +1,58 @@
-import { withIronSessionSsr } from 'iron-session/next';
-import { plaidClient, sessionOptions } from '../lib/plaid';
-import Layout from '@/components/Layout';
-import { useState } from 'react';
+import { withIronSessionSsr } from "iron-session/next";
+import { plaidClient, sessionOptions } from "../lib/plaid";
+import Layout from "@/components/Layout";
+import { useState, useEffect } from "react";
+import {
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
+import {
+  contractABI,
+  contractAddress,
+  usdcAddress,
+  usdcABI,
+} from "@/lib/config";
+import SHA256 from "crypto-js/sha256";
+import { useRouter } from "next/router";
 
 export default function Dashboard({ transactions }) {
   const [selectedTransactions, setSelectedTransactions] = useState({});
   const [descriptions, setDescriptions] = useState({});
-  const [overallDescription, setOverallDescription] = useState('');
+  const [transactionCount, setTransactionCount] = useState();
+
+  const {
+    data: transactionData,
+    isLoading,
+    isSuccess: transSuccess,
+    isError: transError,
+    write,
+  } = useContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "logTransaction",
+    // args: [hashData, expensePrice],
+  });
+
+  const {
+    data: transactionCountData,
+    isError: transactionCountError,
+    isLoading: transactionCountLoading,
+  } = useContractRead({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "getTransactionsCount",
+  });
+
+  useEffect(() => {
+    if (
+      !transactionCountLoading &&
+      !transactionCountError &&
+      transactionCountData
+    ) {
+      setTransactionCount(transactionCountData);
+    }
+  }, [transactionCountData, transactionCountLoading, transactionCountError]);
 
   const toggleTransactionSelection = (transactionId) => {
     setSelectedTransactions((prev) => ({
@@ -19,32 +65,34 @@ export default function Dashboard({ transactions }) {
     toggleTransactionSelection(transactionId);
   };
 
-  const handleDescriptionChange = (transactionId, description) => {
-    setDescriptions((prev) => ({
-      ...prev,
-      [transactionId]: description,
-    }));
-  };
-
   const handleSubmit = async () => {
     const selectedTransactionData = transactions
       .filter((transaction) => selectedTransactions[transaction.transaction_id])
       .map((transaction) => ({
         ...transaction,
-        description: descriptions[transaction.transaction_id] || '',
+        description: descriptions[transaction.transaction_id] || "",
+        trxCount: parseInt(transactionCount),
+        wallet: "0x3C379062F48308840F827F27D77F9d47eAF62592",
       }));
 
     try {
-      const response = await fetch('/api/saveTransactions', {
-        method: 'POST',
+      for (const transaction of selectedTransactionData) {
+        const hashData =
+          transaction.title + transaction.amount + transaction.date;
+        const transactionHash = SHA256(hashData).toString();
+        await write(transactionHash, transaction.amount); //check
+      }
+
+      const response = await fetch("/api/saveTransactions", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ transactions: selectedTransactionData }),
       });
 
       if (response.ok) {
-        alert('Transactions saved successfully');
+        alert("Transactions saved successfully");
       } else {
         const data = await response.json();
         alert(`Error saving transactions: ${data.message}`);
@@ -53,7 +101,7 @@ export default function Dashboard({ transactions }) {
       alert(`Error saving transactions: ${error.message}`);
     }
   };
-
+  const router = useRouter();
   return (
     <Layout>
       <div className="flex">
@@ -112,9 +160,10 @@ export default function Dashboard({ transactions }) {
                                             selectedTransactions[
                                               transaction.transaction_id
                                             ]
-                                              ? 'bg-green-900'
-                                              : ''
-                                          }`}>
+                                              ? "bg-green-900"
+                                              : ""
+                                          }`}
+                                        >
                                           <td className="py-5">
                                             <div className="flex items-start gap-x-3">
                                               <div className="text-sm font-medium leading-6 text-gray-300">
@@ -131,7 +180,7 @@ export default function Dashboard({ transactions }) {
                                             <div className="text-sm leading-6 text-gray-300">
                                               💲
                                               {Math.abs(transaction.amount) +
-                                                ' ' +
+                                                " " +
                                                 transaction.iso_currency_code}
                                             </div>
                                           </td>
@@ -171,21 +220,17 @@ export default function Dashboard({ transactions }) {
                         </div>
                       </div>
                       <div className="ml-4 w-80">
-                        <h2 className="text-xl text-white font-semibold mb-2">
-                          Overall Description
-                        </h2>
-                        <textarea
-                          className="w-full h-32 p-2 border border-gray-300 rounded"
-                          placeholder="Enter overall description"
-                          value={overallDescription}
-                          onChange={(e) =>
-                            setOverallDescription(e.target.value)
-                          }
-                        />
                         <button
                           className="mt-4 px-4 py-2 bg-indigo-600 text-white font-semibold rounded"
-                          onClick={handleSubmit}>
+                          onClick={handleSubmit}
+                        >
                           Submit Selected Transactions for Review
+                        </button>
+                        <button
+                          className="mt-4 px-4 py-2 bg-indigo-600 text-white font-semibold rounded"
+                          onClick={() => router.push("/swap")}
+                        >
+                          Swap SIMP tokens for USDC
                         </button>
                       </div>
                     </div>
@@ -207,7 +252,7 @@ export const getServerSideProps = withIronSessionSsr(
     if (!access_token) {
       return {
         redirect: {
-          destination: '/',
+          destination: "/",
           permanent: false,
         },
       };
@@ -218,11 +263,11 @@ export const getServerSideProps = withIronSessionSsr(
       currentDate.getMonth() + 1
     )
       .toString()
-      .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+      .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
 
     const response = await plaidClient.transactionsGet({
       access_token: access_token,
-      start_date: '2018-01-01',
+      start_date: "2018-01-01",
       end_date: end_date,
     });
 
