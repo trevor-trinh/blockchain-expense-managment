@@ -20,7 +20,14 @@ export default function Transactions() {
     functionName: 'getTransactionsCount',
   });
 
+  // super scuffed but hotfix
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const providerRead = new ethers.providers.JsonRpcProvider('RPC_URL_HERE');
+  const contractRead = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    providerRead
+  );
   const contract = new ethers.Contract(contractAddress, contractABI, provider);
   const signer = provider.getSigner();
   const contractWithSigner = contract.connect(signer);
@@ -34,7 +41,7 @@ export default function Transactions() {
 
       // could lead to errors if mongodb is not in sync with blockchain
       for (let i = 0; i < ethers.BigNumber.from(txnCount).toNumber(); i++) {
-        const chainTxn = await contract.transactions(i);
+        const chainTxn = await contractRead.transactions(i);
         const matchingTxn = data[data.findIndex((x) => x.txnId === i)];
         if (matchingTxn) {
           matchingTxn.status = chainTxn.status;

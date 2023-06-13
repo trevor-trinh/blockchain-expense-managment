@@ -36,18 +36,32 @@ const data = [
 export default function Balances() {
   const [stats, setStats] = useState();
 
+  const { config } = usePrepareContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: 'fundUSDC',
+    args: [100],
+  });
   const {
     data: simpFundUSDC,
     isLoading,
     isSuccess: fundSuccess,
     isError: fundError,
     write,
-  } = useContractWrite({
-    address: contractAddress,
-    abi: contractABI,
-    functionName: 'fundUSDC',
-    args: [100],
-  });
+  } = useContractWrite(config);
+
+  // const {
+  //   data: simpFundUSDC,
+  //   isLoading,
+  //   isSuccess: fundSuccess,
+  //   isError: fundError,
+  //   write,
+  // } = useContractWrite({
+  //   address: contractAddress,
+  //   abi: contractABI,
+  //   functionName: 'fundUSDC',
+  //   args: [100],
+  // });
 
   const {
     data: usdcData,
