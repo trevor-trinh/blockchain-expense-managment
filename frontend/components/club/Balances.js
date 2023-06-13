@@ -120,10 +120,9 @@ export default function Balances() {
 
   useEffect(() => {
     if (fundSuccess) {
-      toast.success('Funded 100 USDC!');
       setStats((prevStats) => {
         return prevStats.map((item) => {
-          if (item.name === 'Deposited USDC') {
+          if (item.name === 'Deposited USDC 💰') {
             return {
               ...item,
               value: item.value + 100,
@@ -133,6 +132,7 @@ export default function Balances() {
           }
         });
       });
+      toast.success('Funded 100 USDC!');
     }
     if (fundError) {
       toast.error('Error!\n' + error);

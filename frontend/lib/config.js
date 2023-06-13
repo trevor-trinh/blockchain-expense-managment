@@ -1,7 +1,7 @@
 import SimpContract from './SimpliSpend.json';
 import MockUSDC from './MockUSDC.json';
 
-export const contractAddress = '0xf9bF98ecEE0F71101442514285FD50b3CBCb07aD';
+export const contractAddress = '0x972EFe5b625dcC26111C67dd575978f03212eB77';
 export const contractABI = SimpContract.abi;
 
 export const usdcAddress = '0x731Aaada70FfB1C1679a4aaA5d73252605dF06Cd';

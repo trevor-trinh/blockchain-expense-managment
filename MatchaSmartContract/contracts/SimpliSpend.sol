@@ -40,6 +40,10 @@ contract SimpliSpend is ERC20, ERC20Burnable, Ownable {
         SafeERC20.safeTransferFrom(usdc, msg.sender, address(this), _amount);
     }
 
+    function getTransactionsCount() public view returns (uint256) {
+        return transactions.length;
+    }
+
     function logTransaction(string memory _detailsHash, uint256 _cost) public {
         transactions.push(
             Transaction({
