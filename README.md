@@ -10,6 +10,20 @@ Welcome to SimpliSpend, a revolutionary expense management solution tailored spe
 - **👍 Approval Process**: University clubs have the authority to approve or deny expense requests.
 - **🪙 SIMP Token Generation**: If an expense is approved, the contract mints SIMP tokens as a representation of the expense, which the student can then swap with USDC.
 
+## 🎬 Demo 
+
+We've prepared some demonstration videos to showcase the functionality of SimpliSpend. These videos provide an overview of how the system works and how it can be used effectively for expense management in university clubs.
+
+### New Video Demo
+[![SimpliSpend New Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/79fa9b3e-fffe-415b-9302-5faf97529a18)
+
+Click on the image above to see our latest demo of SimpliSpend, where we delve into the latest features and improvements.
+
+### Old Video Demo
+[![SimpliSpend Old Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/826e722f-cce1-4e15-9eef-67d1e8b84603)
+
+Click on the image above if you wish to view our older demonstration. It provides a comprehensive overview of the fundamental features of SimpliSpend.
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js, Tailwind, Wagmi.js (ether.js)
@@ -72,7 +86,6 @@ Replace `${SimpliSpend.address}` and `${mockUSDC.address}` with the actual contr
 
 ```
 npx hardhat verify --network mumbai ${SimpliSpend.address} ${usdcAddress}
-
 npx hardhat verify --network mumbai --contract contracts/MockUSDC.sol:MockUSDC ${mockUSDC.address}
 ```
 
