@@ -15,12 +15,12 @@ Welcome to SimpliSpend, a revolutionary expense management solution tailored spe
 We've prepared some demonstration videos to showcase the functionality of SimpliSpend. These videos provide an overview of how the system works and how it can be used effectively for expense management in university clubs.
 
 ### New Video Demo
-[![SimpliSpend New Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/79fa9b3e-fffe-415b-9302-5faf97529a18)
+[SimpliSpend New Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/79fa9b3e-fffe-415b-9302-5faf97529a18)
 
 Click on the image above to see our latest demo of SimpliSpend, where we delve into the latest features and improvements.
 
 ### Old Video Demo
-[![SimpliSpend Old Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/826e722f-cce1-4e15-9eef-67d1e8b84603)
+[SimpliSpend Old Demo](https://github.com/trevor-trinh/blockchain-expense-managment/assets/50549133/826e722f-cce1-4e15-9eef-67d1e8b84603)
 
 Click on the image above if you wish to view our older demonstration. It provides a comprehensive overview of the fundamental features of SimpliSpend.
 
