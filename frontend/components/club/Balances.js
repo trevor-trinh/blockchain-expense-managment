@@ -135,8 +135,8 @@ export default function Balances() {
       toast.success('Funded 100 USDC!');
     }
     if (fundError) {
-      toast.error('Error!\n' + error);
-      console.log(error);
+      toast.error('Error!\n' + fundError);
+      console.log(fundError);
     }
   }, [fundSuccess, fundError]);
 

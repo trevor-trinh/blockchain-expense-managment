@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       const client = await clientPromise;
       const db = client.db('expenses');
 
-      const expenses = await db.collection('trevortesting').find({}).toArray();
+      const expenses = await db.collection('expenses').find({}).toArray();
 
       res.json(expenses);
     } catch (e) {
