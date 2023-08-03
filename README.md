@@ -92,6 +92,21 @@ npx hardhat verify --network mumbai --contract contracts/MockUSDC.sol:MockUSDC $
 ## 🙌 Contribute
 
 We welcome contributions to SimpliSpend! Feel free to fork the repo, make your changes, and then submit a pull request. If you find issues, please report them in the issues section of this repository.
+Certainly! Below is an example of how you might add a section for contributors, listing names, roles, and links.
+
+### Contributors
+
+Here's a list of some amazing contributors:
+
+- **[Derrick Cui](https://www.linkedin.com/in/derrick-cui/)** - Developer
+- **[Trevor Trinh](https://www.linkedin.com/in/trevortrinh/)** - Developer
+- **[Hiya Shah](https://www.linkedin.com/in/hiyashah/)** - Developer
+- **[Rishi Thakar](https://www.linkedin.com/in/rishi-thakar-b1533a178/)** - Design
+- **[Aryan Bhadouria](https://www.linkedin.com/in/aryanbhadouria/)** - Business
+- **[Harry Yuan](https://www.linkedin.com/in/harry-yuan/)** - Mentor
+
+Feel free to add your name here when you contribute!
+
 
 ## 📝 License
 
